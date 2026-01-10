@@ -27,9 +27,9 @@ Get a Raspberry Pi 5 running **headless** (no monitor), reachable via **SSH**, u
 - Selected **Raspberry Pi OS Lite (64-bit)** (no desktop GUI)
 - Enabled **SSH**
 - Set:
-  - Hostname: `securitypi`
-  - Username: `PI_USER`
-  - Timezone: America/Vancouver
+  - Hostname
+  - Username
+  - Timezone
 - Windows asked to “format drive” when microSD inserted → we clicked **Cancel**.
 
 ### Why we did it
@@ -42,7 +42,7 @@ Get a Raspberry Pi 5 running **headless** (no monitor), reachable via **SSH**, u
 ## First boot (what/why)
 ### What we did
 - Inserted microSD into Pi
-- Connected Ethernet to TELUS router
+- Connected Ethernet to router
 - Powered on and waited ~2 minutes
 
 ### Why we did it
@@ -53,25 +53,23 @@ Get a Raspberry Pi 5 running **headless** (no monitor), reachable via **SSH**, u
 
 ## Connecting from Windows (SSH) — how we found the Pi
 ### What we tried first
-- Tried `securitypi.local` and it failed:
-  - “Could not resolve hostname securitypi.local”
+- Tried `HOSTNAME.local` and it failed:
+  - “Could not resolve hostname”
 
 ### Why it failed
 - `.local` relies on mDNS/Bonjour, which often doesn’t work by default on Windows.
 
 ### What we did instead (reliable method)
-- Couldn’t log into TELUS router admin, so we found the Pi by scanning the LAN:
-  - Confirmed PC network range using `ipconfig` (IPv4 192.168.1.x)
-  - Scanned the network for devices with SSH (port 22) open
-  - Found the Pi at: <PI_LAN_IP>
-- SSH’d in successfully:
-  - `ssh username@PI_LAN_IP`
-- Confirmed login prompt:
-  - `username@securitypi:~ $`
+- Couldn’t log into router admin, so we found the Pi by scanning the LAN:
+  - Confirmed PC network range using `ipconfig` (IPv4 xxx.xxx.x.xxx)
+  - Scanned the network for devices with SSH open
+  - Found the Pi
+- SSH’d in successfully
+- Confirmed login prompt
 
 ### Why this works
 - The Pi gets a private LAN IP from the router.
-- SSH listens on port 22, so scanning for port 22 finds it.
+- SSH listens on port XX, so scanning for port XX finds it.
 
 ---
 
@@ -80,8 +78,8 @@ Get a Raspberry Pi 5 running **headless** (no monitor), reachable via **SSH**, u
 - Updated and upgraded packages
 - Rebooted and reconnected via SSH
 - Verified:
-  - Hostname: `securitypi`
-  - IP on ethernet: `PI_LAN_IP`
+  - Hostname
+  - IP on ethernet
   - Disk space on microSD:
     - Root filesystem ~118GB, only ~4% used
   - SSH service is active and enabled
@@ -106,13 +104,13 @@ Get a Raspberry Pi 5 running **headless** (no monitor), reachable via **SSH**, u
 ### What we did
 - Noticed the IP was “dynamic” and could change
 - Router admin login wasn’t available, so we set a static IP on the Pi using NetworkManager:
-  - Connection name: `netplan-eth0`
-  - Set IPv4 address: `PI_LAN_IP/XX`
-  - Gateway: ROUTER_GATEWAY`
-  - DNS: `ROUTER_GATEWAY`
+  - Connection name
+  - Set IPv4 address
+  - Gateway
+  - DNS
   - IPv4 method set to manual
 - Reconnected after temporarily dropping the connection
-- Verified `PI_LAN_IP` is now non-dynamic
+- Verified. Is now non-dynamic
 
 ### Why we did it
 - If the Pi’s IP changes, SSH becomes annoying.
@@ -129,7 +127,7 @@ Get a Raspberry Pi 5 running **headless** (no monitor), reachable via **SSH**, u
 
 ### Result
 - Default inbound: **deny**
-- SSH allowed: **22/tcp OpenSSH** (IPv4 and IPv6)
+- SSH allowed
 
 ### Why we did it
 - Blocks unsolicited inbound traffic on the LAN.
@@ -139,7 +137,7 @@ Get a Raspberry Pi 5 running **headless** (no monitor), reachable via **SSH**, u
 
 ## Current status (end of today)
 ✅ Pi is running headless and stable  
-✅ SSH working: `ssh username@PI_LAN_IP`  
+✅ SSH working 
 ✅ Static IP set (won’t randomly change)  
 ✅ Updated OS  
 ✅ Firewall enabled with SSH allowed  
