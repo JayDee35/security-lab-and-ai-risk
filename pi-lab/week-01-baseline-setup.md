@@ -28,7 +28,7 @@ Get a Raspberry Pi 5 running **headless** (no monitor), reachable via **SSH**, u
 - Enabled **SSH**
 - Set:
   - Hostname: `securitypi`
-  - Username: `jdaudet`
+  - Username: `PI_USER`
   - Timezone: America/Vancouver
 - Windows asked to “format drive” when microSD inserted → we clicked **Cancel**.
 
@@ -63,11 +63,11 @@ Get a Raspberry Pi 5 running **headless** (no monitor), reachable via **SSH**, u
 - Couldn’t log into TELUS router admin, so we found the Pi by scanning the LAN:
   - Confirmed PC network range using `ipconfig` (IPv4 192.168.1.x)
   - Scanned the network for devices with SSH (port 22) open
-  - Found the Pi at: **192.168.1.118**
+  - Found the Pi at: <PI_LAN_IP>
 - SSH’d in successfully:
-  - `ssh jdaudet@192.168.1.118`
+  - `ssh username@PI_LAN_IP`
 - Confirmed login prompt:
-  - `jdaudet@securitypi:~ $`
+  - `username@securitypi:~ $`
 
 ### Why this works
 - The Pi gets a private LAN IP from the router.
@@ -81,7 +81,7 @@ Get a Raspberry Pi 5 running **headless** (no monitor), reachable via **SSH**, u
 - Rebooted and reconnected via SSH
 - Verified:
   - Hostname: `securitypi`
-  - IP on ethernet: `192.168.1.118`
+  - IP on ethernet: `PI_LAN_IP`
   - Disk space on microSD:
     - Root filesystem ~118GB, only ~4% used
   - SSH service is active and enabled
@@ -107,12 +107,12 @@ Get a Raspberry Pi 5 running **headless** (no monitor), reachable via **SSH**, u
 - Noticed the IP was “dynamic” and could change
 - Router admin login wasn’t available, so we set a static IP on the Pi using NetworkManager:
   - Connection name: `netplan-eth0`
-  - Set IPv4 address: `192.168.1.118/24`
-  - Gateway: `192.168.1.254`
-  - DNS: `192.168.1.254`
+  - Set IPv4 address: `PI_LAN_IP/XX`
+  - Gateway: ROUTER_GATEWAY`
+  - DNS: `ROUTER_GATEWAY`
   - IPv4 method set to manual
 - Reconnected after temporarily dropping the connection
-- Verified `192.168.1.118` is now non-dynamic
+- Verified `PI_LAN_IP` is now non-dynamic
 
 ### Why we did it
 - If the Pi’s IP changes, SSH becomes annoying.
@@ -139,7 +139,7 @@ Get a Raspberry Pi 5 running **headless** (no monitor), reachable via **SSH**, u
 
 ## Current status (end of today)
 ✅ Pi is running headless and stable  
-✅ SSH working: `ssh jdaudet@192.168.1.118`  
+✅ SSH working: `ssh username@PI_LAN_IP`  
 ✅ Static IP set (won’t randomly change)  
 ✅ Updated OS  
 ✅ Firewall enabled with SSH allowed  
